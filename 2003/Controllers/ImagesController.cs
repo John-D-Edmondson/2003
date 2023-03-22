@@ -6,58 +6,59 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using _2003.Models;
+using System.Text.Json;
 
 namespace _2003.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ImgsController : ControllerBase
+    public class ImagesController : ControllerBase
     {
-        private readonly Comp2003Context _context;
+        private readonly Comp2003YContext _context;
 
-        public ImgsController(Comp2003Context context)
+        public ImagesController(Comp2003YContext context)
         {
             _context = context;
         }
 
-        // GET: api/Imgs
+        // GET: api/Images
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Img>>> GetImgs()
+        public async Task<ActionResult<IEnumerable<Image>>> GetImages()
         {
-            return await _context.Imgs.ToListAsync();
+            return await _context.Images.ToListAsync();
         }
 
         [HttpGet("ungraded")]
-        public async Task<ActionResult<IEnumerable<Img>>> GetUngradedImgs()
+        public async Task<ActionResult<IEnumerable<Image>>> GetUngradedImgs()
         {
-            return await _context.Imgs.Where(t => t.ImgGraded == false).ToListAsync();
+            return await _context.Images.Where(t => t.ImgGraded == false).ToListAsync();
         }
 
-
-        // GET: api/Imgs/5
+        // GET: api/Images/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Img>> GetImg(int id)
+        public async Task<ActionResult<Image>> GetImage(int id)
         {
-            var img = await _context.Imgs.FindAsync(id);
+            var image = await _context.Images.FindAsync(id);
 
-            if (img == null)
+            if (image == null)
             {
                 return NotFound();
             }
-            return img;
+
+            return image;
         }
 
-        // PUT: api/Imgs/5
+        // PUT: api/Images/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutImg(int id, Img img)
+        public async Task<IActionResult> PutImage(int id, Image image)
         {
-            if (id != img.Id)
+            if (id != image.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(img).State = EntityState.Modified;
+            _context.Entry(image).State = EntityState.Modified;
 
             try
             {
@@ -65,7 +66,7 @@ namespace _2003.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ImgExists(id))
+                if (!ImageExists(id))
                 {
                     return NotFound();
                 }
@@ -78,36 +79,36 @@ namespace _2003.Controllers
             return NoContent();
         }
 
-        // POST: api/Imgs
+        // POST: api/Images
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Img>> PostImg(Img img)
+        public async Task<ActionResult<Image>> PostImage(Image image)
         {
-            _context.Imgs.Add(img);
+            _context.Images.Add(image);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetImg", new { id = img.Id }, img);
+            return CreatedAtAction("GetImage", new { id = image.Id }, image);
         }
 
-        // DELETE: api/Imgs/5
+        // DELETE: api/Images/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteImg(int id)
+        public async Task<IActionResult> DeleteImage(int id)
         {
-            var img = await _context.Imgs.FindAsync(id);
-            if (img == null)
+            var image = await _context.Images.FindAsync(id);
+            if (image == null)
             {
                 return NotFound();
             }
 
-            _context.Imgs.Remove(img);
+            _context.Images.Remove(image);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool ImgExists(int id)
+        private bool ImageExists(int id)
         {
-            return _context.Imgs.Any(e => e.Id == id);
+            return _context.Images.Any(e => e.Id == id);
         }
     }
 }

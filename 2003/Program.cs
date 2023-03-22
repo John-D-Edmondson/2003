@@ -3,6 +3,7 @@
 using _2003.Models;
 using Microsoft.Build.Framework;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +13,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<Comp2003Context>(options =>
+builder.Services.AddDbContext<Comp2003YContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DBconnection"));
 });
